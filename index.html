@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Permissão</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- >>> EDITE AQUI: texto principal que aparece para a pessoa <<< -->
+  <div class="mensagem" id="mensagem">Bom dia, Boa tarde ou Boa noite, me chamo Vitor Hugo e estou aqui para pedir permissão para namorar com a Ana, fui apresentado pela prima dela Thiffane, desde então venho a conhecer mais e mais a Ana, saimos algumas vezes e conversamos muito, após alguns meses fomos percebendo que gostavamos um do outro, conversamos mais e agora gostariamos de oficializar nosso relacionamento, amo muito a Ana, o sorriso, a personalidade, a presença, a inteligência e muito mais e gostaria da permissão para namorar com ela, prometo deixa-lá feliz, cuidar e proteger ela, além de garantir o melhor para ela e não desejo que esse relacionamento seja raso ou passageiro, pretendo namora a Ana, até o fim de minha vida, gostaria que clicassem no botão de Sim. 💜</div>
+  <div class="botoes">
+    <button class="btn sim" id="sim">Sim</button>
+    <button class="btn nao" id="nao">Não</button>
+  </div>
+
+  <!-- >>> EDITE AQUI: texto que aparece só se clicarem em NÃO <<< -->
+  <div class="extra" id="extra">Desculpa, pode parecer imposição, porém não consigo aceitar que negue meu pedido, pois, como mencionei acima, amo muito a Ana, não posso deixar que ninguém ou nada, impeça isso, solicito novamente que clique no botão Sim, por favor.</div>
+
+  <script>
+    // >>> EDITE AQUI: cole o seu link do WhatsApp abaixo <<<
+    // Exemplo: "https://wa.me/5511999999999?text=Oi%2C%20aceito!"
+    const LINK_WHATSAPP = "https://api.whatsapp.com/send/?phone=5511941256021&text=Oi%2C+eu+permito+que+pe%C3%A7a+a+Ana+em+namoro%21&type=phone_number&app_absent=0I";
+
+    const btnSim = document.getElementById("sim");
+    const btnNao = document.getElementById("nao");
+    const extra  = document.getElementById("extra");
+
+    // Clique em SIM -> redireciona para o WhatsApp
+    btnSim.addEventListener("click", () => {
+      window.location.href = LINK_WHATSAPP;
+    });
+
+    // Clique em NÃO -> mostra a caixa de texto (funciona no celular e no PC)
+    btnNao.addEventListener("click", (e) => {
+      e.preventDefault();
+      extra.classList.add("ativo");
+    });
+
+    // Em PCs (mouse), o botão NÃO foge para o lado oposto da tela
+    function fugir(e) {
+      // Só foge com mouse; no celular (toque) não foge
+      if (e.pointerType !== "mouse") return;
+
+      const larguraTela = window.innerWidth;
+      const alturaTela  = window.innerHeight;
+      const bw = btnNao.offsetWidth;
+      const bh = btnNao.offsetHeight;
+      const margem = 16;
+
+      // Se o mouse entrou na metade esquerda, vai para a direita, e vice-versa
+      const mouseNaEsquerda = e.clientX < larguraTela / 2;
+
+      let x, y;
+      if (mouseNaEsquerda) {
+        const minX = larguraTela / 2;
+        const maxX = larguraTela - bw - margem;
+        x = minX + Math.random() * Math.max(0, maxX - minX);
+      } else {
+        const minX = margem;
+        const maxX = larguraTela / 2 - bw;
+        x = minX + Math.random() * Math.max(0, maxX - minX);
+      }
+
+      const maxY = alturaTela - bh - margem;
+      y = margem + Math.random() * Math.max(0, maxY - margem);
+
+      btnNao.classList.add("fugindo");
+      btnNao.style.left = Math.max(margem, Math.min(x, larguraTela - bw - margem)) + "px";
+      btnNao.style.top  = Math.max(margem, Math.min(y, alturaTela - bh - margem)) + "px";
+    }
+
+    btnNao.addEventListener("pointerenter", fugir);
+  </script>
+
+</body>
+</html>
